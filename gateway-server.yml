@@ -3,7 +3,7 @@ spring:
     gateway:
       routes:
         - id: subscriber-manager-requests
-          uri: http://localhost:8003
+          uri: http://localhost:8230
           predicates:
             - Path=/sub/v1/**
 
