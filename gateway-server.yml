@@ -6,6 +6,18 @@ spring:
           uri: http://localhost:8230
           predicates:
             - Path=/sub/v1/**
+        - id: subscriber-manager-actuator
+          uri: http://localhost:8230
+          predicates:
+            - Path=/sm/actuator/**
+          filters:
+            - RewritePath=/actuator/(?<path>.*), /$\{path}
+        - id: data-actuator-actuator
+          uri: http://localhost:8240
+          predicates:
+            - Path=/da/actuator/**
+          filters:
+            - RewritePath=/actuator/(?<path>.*), /$\{path}
 
 eureka:
   client:
