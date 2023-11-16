@@ -11,13 +11,13 @@ spring:
           predicates:
             - Path=/sm/actuator/**
           filters:
-            - RewritePath=/actuator/(?<path>.*), /$\{path}
+            - RewritePath=/sm/actuator/(?<path>.*), /actuator/$\{path}
         - id: data-actuator-actuator
           uri: http://localhost:8240
           predicates:
             - Path=/da/actuator/**
           filters:
-            - RewritePath=/actuator/(?<path>.*), /$\{path}
+            - RewritePath=/da/actuator/(?<path>.*), /actuator/$\{path}
 
 eureka:
   client:
