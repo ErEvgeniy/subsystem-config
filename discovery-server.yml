@@ -1,0 +1,10 @@
+eureka:
+  server:
+    registry-sync-retries: 3
+    wait-time-in-ms-when-sync-empty: 5
+    max-threads-for-peer-replication: 0
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:8001/eureka
