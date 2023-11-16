@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: subscriber-manager-requests
+          uri: http://localhost:8003
+          predicates:
+            - Path=/sub/v1/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
