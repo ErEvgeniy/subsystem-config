@@ -1,25 +1,41 @@
+application:
+  subscriber-manager:
+    port: 8230
+  data-actuator:
+    port: 8240
+
 spring:
   cloud:
     gateway:
       routes:
+        # business requests
         - id: subscriber-manager-requests
-          uri: http://localhost:8230
+          uri: http://localhost:${application.subscriber-manager.port}
           predicates:
             - Path=/sub/v1/**
-        - id: subscriber-manager-actuator-sub-path
-          uri: http://localhost:8230
+        # system requests
+        ## actuator of subscriber manager
+        - id: subscriber-manager-actuator-base-path
+          uri: http://localhost:${application.subscriber-manager.port}
           predicates:
             - Path=/sm/actuator
           filters:
             - RewritePath=/sm/actuator, /actuator
-        - id: subscriber-manager-actuator-base-path
-          uri: http://localhost:8230
+        - id: subscriber-manager-actuator-sub-paths
+          uri: http://localhost:${application.subscriber-manager.port}
           predicates:
             - Path=/sm/actuator/**
           filters:
             - RewritePath=/sm/actuator/(?<path>.*), /actuator/$\{path}
-        - id: data-actuator-actuator
-          uri: http://localhost:8240
+        ## actuator of data actuator
+        - id: data-actuator-actuator-base-path
+          uri: http://localhost:${application.subscriber-manager.port}
+          predicates:
+            - Path=/sm/actuator
+          filters:
+            - RewritePath=/sm/actuator, /actuator
+        - id: data-actuator-actuator-sub-paths
+          uri: http://localhost:${application.data-actuator.port}
           predicates:
             - Path=/da/actuator/**
           filters:
