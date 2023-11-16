@@ -6,18 +6,18 @@ spring:
           uri: http://localhost:8230
           predicates:
             - Path=/sub/v1/**
-        - id: subscriber-manager-actuator-base-path
-          uri: http://localhost:8230
-          predicates:
-            - Path=/sm/actuator/**
-          filters:
-            - RewritePath=/sm/actuator/(?<path>.*), /actuator/$\{path}
         - id: subscriber-manager-actuator-sub-path
           uri: http://localhost:8230
           predicates:
             - Path=/sm/actuator
           filters:
             - RewritePath=/sm/actuator, /actuator
+        - id: subscriber-manager-actuator-base-path
+          uri: http://localhost:8230
+          predicates:
+            - Path=/sm/actuator/**
+          filters:
+            - RewritePath=/sm/actuator/(?<path>.*), /actuator/$\{path}
         - id: data-actuator-actuator
           uri: http://localhost:8240
           predicates:
