@@ -2,20 +2,24 @@ application:
   discovery-server:
     alias: ds
     port: 8210
+    name: discovery-server
+    uri: lb://${application.discovery-server.name}
   subscriber-manager:
     alias: sm
     name: subscriber-manager
-    port: 8230
     uri: lb://${application.subscriber-manager.name}
   data-actuator:
     alias: da
-    port: 8240
+    name: data-actuator
+    uri: lb://${application.data-actuator.name}
   notificator-email:
     alias: ne
-    port: 8260
+    name: notificator-email
+    uri: lb://${application.notificator-email.name}
   notificator-sms:
     alias: ns
-    port: 8270
+    name: notificator-sms
+    uri: lb://${application.notificator-sms.name}
 
 spring:
   cloud:
@@ -30,13 +34,13 @@ spring:
         # system requests
         ## actuator of discovery server
         - id: subscriber-manager-actuator-base-path
-          uri: http://localhost:${application.discovery-server.port}
+          uri: ${application.discovery-server.uri}
           predicates:
             - Path=/${application.discovery-server.alias}/actuator
           filters:
             - RewritePath=/${application.discovery-server.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
-          uri: http://localhost:${application.discovery-server.port}
+          uri: ${application.discovery-server.uri}
           predicates:
             - Path=/${application.discovery-server.alias}/actuator/**
           filters:
@@ -44,13 +48,13 @@ spring:
 
         ## actuator of subscriber manager
         - id: subscriber-manager-actuator-base-path
-          uri: http://localhost:${application.subscriber-manager.port}
+          uri: ${application.subscriber-manager.uri}
           predicates:
             - Path=/${application.subscriber-manager.alias}/actuator
           filters:
             - RewritePath=/${application.subscriber-manager.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
-          uri: http://localhost:${application.subscriber-manager.port}
+          uri: ${application.subscriber-manager.uri}
           predicates:
             - Path=/${application.subscriber-manager.alias}/actuator/**
           filters:
@@ -58,13 +62,13 @@ spring:
 
         ## actuator of data actuator
         - id: data-actuator-actuator-base-path
-          uri: http://localhost:${application.data-actuator.port}
+          uri: ${application.data-actuator.uri}
           predicates:
             - Path=/${application.data-actuator.alias}/actuator
           filters:
             - RewritePath=/${application.data-actuator.alias}/actuator, /actuator
         - id: data-actuator-actuator-sub-paths
-          uri: http://localhost:${application.data-actuator.port}
+          uri: ${application.data-actuator.uri}
           predicates:
             - Path=/${application.data-actuator.alias}/actuator/**
           filters:
@@ -72,13 +76,13 @@ spring:
 
         ## actuator of notificator email
         - id: subscriber-manager-actuator-base-path
-          uri: http://localhost:${application.notificator-email.port}
+          uri: ${application.notificator-email.uri}
           predicates:
             - Path=/${application.notificator-email.alias}/actuator
           filters:
             - RewritePath=/${application.notificator-email.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
-          uri: http://localhost:${application.notificator-email.port}
+          uri: ${application.notificator-email.uri}
           predicates:
             - Path=/${application.notificator-email.alias}/actuator/**
           filters:
@@ -86,13 +90,13 @@ spring:
 
         ## actuator of notificator sms
         - id: subscriber-manager-actuator-base-path
-          uri: http://localhost:${application.notificator-sms.port}
+          uri: ${application.notificator-sms.uri}
           predicates:
             - Path=/${application.notificator-sms.alias}/actuator
           filters:
             - RewritePath=/${application.notificator-sms.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
-          uri: http://localhost:${application.notificator-sms.port}
+          uri: ${application.notificator-sms.uri}
           predicates:
             - Path=/${application.notificator-sms.alias}/actuator/**
           filters:
