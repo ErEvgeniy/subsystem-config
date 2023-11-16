@@ -2,8 +2,6 @@ application:
   discovery-server:
     alias: ds
     port: 8210
-    name: discovery-server
-    uri: lb://${application.discovery-server.name}
   subscriber-manager:
     alias: sm
     name: subscriber-manager
@@ -34,13 +32,13 @@ spring:
         # system requests
         ## actuator of discovery server
         - id: subscriber-manager-actuator-base-path
-          uri: ${application.discovery-server.uri}
+          uri: http://localhost:${application.discovery-server.port}
           predicates:
             - Path=/${application.discovery-server.alias}/actuator
           filters:
             - RewritePath=/${application.discovery-server.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
-          uri: ${application.discovery-server.uri}
+          uri: http://localhost:${application.discovery-server.port}
           predicates:
             - Path=/${application.discovery-server.alias}/actuator/**
           filters:
