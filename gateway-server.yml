@@ -4,7 +4,9 @@ application:
     port: 8210
   subscriber-manager:
     alias: sm
+    name: subscriber-manager
     port: 8230
+    uri: lb://${application.subscriber-manager.name}
   data-actuator:
     alias: da
     port: 8240
@@ -21,7 +23,7 @@ spring:
       routes:
         # business requests
         - id: subscriber-manager-requests
-          uri: http://localhost:${application.subscriber-manager.port}
+          uri: ${application.subscriber-manager.uri}
           predicates:
             - Path=/sub/v1/**
 
