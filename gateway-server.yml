@@ -1,8 +1,19 @@
 application:
+  discovery-server:
+    alias: ds
+    port: 8210
   subscriber-manager:
+    alias: sm
     port: 8230
   data-actuator:
+    alias: da
     port: 8240
+  notificator-email:
+    alias: ne
+    port: 8260
+  notificator-sms:
+    alias: ns
+    port: 8270
 
 spring:
   cloud:
@@ -13,38 +24,82 @@ spring:
           uri: http://localhost:${application.subscriber-manager.port}
           predicates:
             - Path=/sub/v1/**
+
         # system requests
+        ## actuator of discovery server
+        - id: subscriber-manager-actuator-base-path
+          uri: http://localhost:${application.discovery-server.port}
+          predicates:
+            - Path=/${application.discovery-server.alias}/actuator
+          filters:
+            - RewritePath=/${application.discovery-server.alias}/actuator, /actuator
+        - id: subscriber-manager-actuator-sub-paths
+          uri: http://localhost:${application.discovery-server.port}
+          predicates:
+            - Path=/${application.discovery-server.alias}/actuator/**
+          filters:
+            - RewritePath=/${application.discovery-server.alias}/actuator/(?<path>.*), /actuator/$\{path}
+
         ## actuator of subscriber manager
         - id: subscriber-manager-actuator-base-path
           uri: http://localhost:${application.subscriber-manager.port}
           predicates:
-            - Path=/sm/actuator
+            - Path=/${application.subscriber-manager.alias}/actuator
           filters:
-            - RewritePath=/sm/actuator, /actuator
+            - RewritePath=/${application.subscriber-manager.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
           uri: http://localhost:${application.subscriber-manager.port}
           predicates:
-            - Path=/sm/actuator/**
+            - Path=/${application.subscriber-manager.alias}/actuator/**
           filters:
-            - RewritePath=/sm/actuator/(?<path>.*), /actuator/$\{path}
+            - RewritePath=/${application.subscriber-manager.alias}/actuator/(?<path>.*), /actuator/$\{path}
+
         ## actuator of data actuator
         - id: data-actuator-actuator-base-path
-          uri: http://localhost:${application.subscriber-manager.port}
+          uri: http://localhost:${application.data-actuator.port}
           predicates:
-            - Path=/sm/actuator
+            - Path=/${application.data-actuator.alias}/actuator
           filters:
-            - RewritePath=/sm/actuator, /actuator
+            - RewritePath=/${application.data-actuator.alias}/actuator, /actuator
         - id: data-actuator-actuator-sub-paths
           uri: http://localhost:${application.data-actuator.port}
           predicates:
-            - Path=/da/actuator/**
+            - Path=/${application.data-actuator.alias}/actuator/**
           filters:
-            - RewritePath=/da/actuator/(?<path>.*), /actuator/$\{path}
+            - RewritePath=/${application.data-actuator.alias}/actuator/(?<path>.*), /actuator/$\{path}
+
+        ## actuator of notificator email
+        - id: subscriber-manager-actuator-base-path
+          uri: http://localhost:${application.notificator-email.port}
+          predicates:
+            - Path=/${application.notificator-email.alias}/actuator
+          filters:
+            - RewritePath=/${application.notificator-email.alias}/actuator, /actuator
+        - id: subscriber-manager-actuator-sub-paths
+          uri: http://localhost:${application.notificator-email.port}
+          predicates:
+            - Path=/${application.notificator-email.alias}/actuator/**
+          filters:
+            - RewritePath=/${application.notificator-email.alias}/actuator/(?<path>.*), /actuator/$\{path}
+
+        ## actuator of notificator sms
+        - id: subscriber-manager-actuator-base-path
+          uri: http://localhost:${application.notificator-sms.port}
+          predicates:
+            - Path=/${application.notificator-sms.alias}/actuator
+          filters:
+            - RewritePath=/${application.notificator-sms.alias}/actuator, /actuator
+        - id: subscriber-manager-actuator-sub-paths
+          uri: http://localhost:${application.notificator-sms.port}
+          predicates:
+            - Path=/${application.notificator-sms.alias}/actuator/**
+          filters:
+            - RewritePath=/${application.notificator-sms.alias}/actuator/(?<path>.*), /actuator/$\{path}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8210/eureka
+      defaultZone: http://localhost:${application.discovery-server.port}/eureka
     register-with-eureka: true
     fetch-registry: true
   instance:
