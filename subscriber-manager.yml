@@ -37,6 +37,7 @@ spring:
         registration:
           keycloak:
             client-id: sub-manager
+            scope: openid,profile,email
 
   messages:
     basename: "i18n/notificationtemplates"
