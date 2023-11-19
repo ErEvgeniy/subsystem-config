@@ -28,17 +28,6 @@ spring:
           region:
             factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
 
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8888/auth/realms/SubSystem
-        registration:
-          keycloak:
-            client-id: sub-manager
-            scope: openid,profile,email,roles
-
   messages:
     basename: "i18n/notificationtemplates"
     encoding: "UTF-8"
