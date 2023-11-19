@@ -28,12 +28,22 @@ spring:
           region:
             factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8888/auth/realms/SubSystem
+          jwk-set-uri: http://localhost:8888/auth/realms/SubSystem/protocol/openid-connect/certs
+
   messages:
     basename: "i18n/notificationtemplates"
     encoding: "UTF-8"
 
 application:
   locale: ru_RU
+
+keycloak:
+  resourceName: "sub-manager"
 
 eureka:
   client:
