@@ -18,3 +18,8 @@ management:
   endpoint:
     health:
       show-details: always
+
+spring:
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
