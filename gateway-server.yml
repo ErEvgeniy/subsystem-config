@@ -34,10 +34,6 @@ spring:
             - Path=/sub/v1/**
 
         # system requests
-        - id: subscriber-manager-swagger
-          uri: ${application.subscriber-manager.uri}
-          predicates:
-            - Path=/swagger-ui/index.html
         ## actuator of discovery server
         - id: subscriber-manager-actuator-base-path
           uri: http://localhost:${application.discovery-server.port}
