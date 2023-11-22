@@ -61,7 +61,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, metrics, busrefresh, mapping
+        include: health, metrics, busrefresh, mappings
   endpoint:
     health:
       show-details: always
