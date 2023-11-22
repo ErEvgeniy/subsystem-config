@@ -19,3 +19,8 @@ management:
     health:
       show-details: always
 
+spring:
+  cache:
+    type: jcache
+    jcache:
+      config: classpath:ehcache.xml
