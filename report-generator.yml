@@ -27,6 +27,4 @@ management:
 
 spring:
   cache:
-    type: jcache
-    jcache:
-      config: classpath:ehcache.xml
+    type: caffeine
