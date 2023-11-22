@@ -65,3 +65,11 @@ management:
   endpoint:
     health:
       show-details: always
+
+resilience4j:
+  ratelimiter:
+    instances:
+      migrationServiceCircuitBreaker:
+        limitForPeriod: 1
+        limitRefreshPeriod: 60s
+        timeoutDuration: 0
