@@ -10,6 +10,10 @@ application:
     alias: da
     name: data-actuator
     uri: lb://${application.data-actuator.name}
+  report-generator:
+    alias: rg
+    name: report-generator
+    uri: lb://${application.report-generator.name}
   notificator-email:
     alias: ne
     name: notificator-email
@@ -30,6 +34,10 @@ spring:
             - Path=/sub/v1/**
 
         # system requests
+        - id: subscriber-manager-swagger
+          uri: ${application.subscriber-manager.uri}
+          predicates:
+            - Path=/swagger-ui/index.html
         ## actuator of discovery server
         - id: subscriber-manager-actuator-base-path
           uri: http://localhost:${application.discovery-server.port}
@@ -71,6 +79,20 @@ spring:
             - Path=/${application.data-actuator.alias}/actuator/**
           filters:
             - RewritePath=/${application.data-actuator.alias}/actuator/(?<path>.*), /actuator/$\{path}
+
+        ## actuator of report generator
+        - id: report-generator-actuator-base-path
+          uri: ${application.report-generator.uri}
+          predicates:
+            - Path=/${application.report-generator.alias}/actuator
+          filters:
+            - RewritePath=/${application.report-generator.alias}/actuator, /actuator
+        - id: report-generator-actuator-sub-paths
+          uri: ${application.report-generator.uri}
+          predicates:
+            - Path=/${application.report-generator.alias}/actuator/**
+          filters:
+            - RewritePath=/${application.report-generator.alias}/actuator/(?<path>.*), /actuator/$\{path}
 
         ## actuator of notificator email
         - id: subscriber-manager-actuator-base-path
