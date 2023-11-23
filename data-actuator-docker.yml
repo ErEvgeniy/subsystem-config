@@ -1,7 +1,7 @@
 spring:
   datasource:
     source-db:
-      url: jdbc:ucanaccess:///app/date.mdb;ignoreCase=true;showSchema=true;memory=false
+      url: jdbc:ucanaccess:///tmp/date.mdb;ignoreCase=true;showSchema=true;memory=false
     target-db:
       url: jdbc:postgresql://postgres:5432/sbsdb
     migration-db:
