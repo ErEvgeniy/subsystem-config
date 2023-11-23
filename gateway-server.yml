@@ -1,3 +1,7 @@
+hosts:
+  discovery-server: localhost
+  zipkin: localhost
+
 application:
   discovery-server:
     alias: ds
@@ -36,13 +40,13 @@ spring:
         # system requests
         ## actuator of discovery server
         - id: subscriber-manager-actuator-base-path
-          uri: http://localhost:${application.discovery-server.port}
+          uri: http://${hosts.discovery-server}:${application.discovery-server.port}
           predicates:
             - Path=/${application.discovery-server.alias}/actuator
           filters:
             - RewritePath=/${application.discovery-server.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
-          uri: http://localhost:${application.discovery-server.port}
+          uri: http://${hosts.discovery-server}:${application.discovery-server.port}
           predicates:
             - Path=/${application.discovery-server.alias}/actuator/**
           filters:
@@ -121,7 +125,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:${application.discovery-server.port}/eureka
+      defaultZone: http://${hosts.discovery-server}:${application.discovery-server.port}/eureka
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -140,7 +144,7 @@ management:
       show-details: always
   zipkin:
     tracing:
-      endpoint: http://localhost:9411/api/v2/spans
+      endpoint: http://${hosts.zipkin}:9411/api/v2/spans
   tracing:
     sampling:
       probability: 1.0
