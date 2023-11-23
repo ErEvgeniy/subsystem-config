@@ -1,3 +1,10 @@
+hosts:
+  rabbitmq: localhost
+
+spring:
+  rabbitmq:
+    host: ${hosts.rabbitmq}
+
 eureka:
   server:
     registry-sync-retries: 3
