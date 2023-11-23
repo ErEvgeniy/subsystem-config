@@ -28,6 +28,9 @@ spring:
           region:
             factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
 
+  rabbitmq:
+    host: localhost
+
   security:
     oauth2:
       resourceserver:
