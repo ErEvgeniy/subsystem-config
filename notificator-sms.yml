@@ -1,3 +1,7 @@
+spring:
+  rabbitmq:
+    host: localhost
+
 eureka:
   client:
     service-url:
