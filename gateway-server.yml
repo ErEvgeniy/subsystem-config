@@ -1,6 +1,7 @@
 hosts:
   discovery-server: localhost
   zipkin: localhost
+  rabbitmq: localhost
 
 application:
   discovery-server:
@@ -28,6 +29,8 @@ application:
     uri: lb://${application.notificator-sms.name}
 
 spring:
+  rabbitmq:
+    host: ${hosts.rabbitmq}
   cloud:
     gateway:
       routes:

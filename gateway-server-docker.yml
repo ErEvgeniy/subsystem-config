@@ -1,7 +1,4 @@
 hosts:
   discovery-server: discovery-server
   zipkin: zipkin
-
-spring:
-  rabbitmq:
-    host: rabbitmq
+  rabbitmq: rabbitmq
