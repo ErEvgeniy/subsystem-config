@@ -19,14 +19,14 @@ application:
     alias: rg
     name: report-generator
     uri: lb://${application.report-generator.name}
-  notificator-email:
+  notification-email-sender:
     alias: ne
-    name: notificator-email
-    uri: lb://${application.notificator-email.name}
-  notificator-sms:
+    name: notification-email-sender
+    uri: lb://${application.notification-email-sender.name}
+  notification-sms-sender:
     alias: ns
-    name: notificator-sms
-    uri: lb://${application.notificator-sms.name}
+    name: notification-sms-sender
+    uri: lb://${application.notification-sms-sender.name}
 
 spring:
   rabbitmq:
@@ -97,33 +97,33 @@ spring:
           filters:
             - RewritePath=/${application.report-generator.alias}/actuator/(?<path>.*), /actuator/$\{path}
 
-        ## actuator of notificator email
+        ## actuator of notification-email-sender
         - id: subscriber-manager-actuator-base-path
-          uri: ${application.notificator-email.uri}
+          uri: ${application.notification-email-sender.uri}
           predicates:
-            - Path=/${application.notificator-email.alias}/actuator
+            - Path=/${application.notification-email-sender.alias}/actuator
           filters:
-            - RewritePath=/${application.notificator-email.alias}/actuator, /actuator
+            - RewritePath=/${application.notification-email-sender.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
-          uri: ${application.notificator-email.uri}
+          uri: ${application.notification-email-sender.uri}
           predicates:
-            - Path=/${application.notificator-email.alias}/actuator/**
+            - Path=/${application.notification-email-sender.alias}/actuator/**
           filters:
-            - RewritePath=/${application.notificator-email.alias}/actuator/(?<path>.*), /actuator/$\{path}
+            - RewritePath=/${application.notification-email-sender.alias}/actuator/(?<path>.*), /actuator/$\{path}
 
-        ## actuator of notificator sms
+        ## actuator of notification-sms-sender
         - id: subscriber-manager-actuator-base-path
-          uri: ${application.notificator-sms.uri}
+          uri: ${application.notification-sms-sender.uri}
           predicates:
-            - Path=/${application.notificator-sms.alias}/actuator
+            - Path=/${application.notification-sms-sender.alias}/actuator
           filters:
-            - RewritePath=/${application.notificator-sms.alias}/actuator, /actuator
+            - RewritePath=/${application.notification-sms-sender.alias}/actuator, /actuator
         - id: subscriber-manager-actuator-sub-paths
-          uri: ${application.notificator-sms.uri}
+          uri: ${application.notification-sms-sender.uri}
           predicates:
-            - Path=/${application.notificator-sms.alias}/actuator/**
+            - Path=/${application.notification-sms-sender.alias}/actuator/**
           filters:
-            - RewritePath=/${application.notificator-sms.alias}/actuator/(?<path>.*), /actuator/$\{path}
+            - RewritePath=/${application.notification-sms-sender.alias}/actuator/(?<path>.*), /actuator/$\{path}
 
 eureka:
   client:

@@ -27,6 +27,9 @@ spring:
     password: root
     change-log: liquibase/changelog/liquibase-changelog-master.xml
 
+  rabbitmq:
+    host: localhost
+
 migration:
   job:
     cron: 0 0 1 * * *

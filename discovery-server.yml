@@ -1,9 +1,6 @@
-hosts:
-  rabbitmq: localhost
-
 spring:
   rabbitmq:
-    host: ${hosts.rabbitmq}
+    host: localhost
 
 eureka:
   server:
